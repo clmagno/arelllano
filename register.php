@@ -1,6 +1,9 @@
 <?php
 
 include 'components/connect.php';
+function unique_id($length = 13) {
+   return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
+}
 
 if(isset($_COOKIE['user_id'])){
    $user_id = $_COOKIE['user_id'];
