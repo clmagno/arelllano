@@ -50,7 +50,9 @@ if(isset($_COOKIE['user_id'])){
       ?>
       <div class="box">
          <div class="tutor">
-            <img src="uploaded_files/<?= $fetch_tutor['image']; ?>" alt="">
+         <img src="uploaded_files/<?= $fetch_tutor['image']; ?>" alt="" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
+
+
             <div>
                <h3><?= $fetch_tutor['name']; ?></h3>
                <span><?= $fetch_course['date']; ?></span>

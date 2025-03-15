@@ -36,7 +36,7 @@ if(isset($message)){
             if($select_profile->rowCount() > 0){
             $fetch_profile = $select_profile->fetch(PDO::FETCH_ASSOC);
          ?>
-         <img src="uploaded_files/<?= $fetch_profile['image']; ?>" alt="">
+         <img src="uploaded_files/<?= $fetch_profile['image']; ?>" alt="sss">
          <h3><?= $fetch_profile['name']; ?></h3>
          <span>student</span>
          <a href="profile.php" class="btn">view profile</a>
@@ -79,7 +79,7 @@ if(isset($message)){
             if($select_profile->rowCount() > 0){
             $fetch_profile = $select_profile->fetch(PDO::FETCH_ASSOC);
          ?>
-         <img src="uploaded_files/<?= $fetch_profile['image']; ?>" alt="">
+         <img src="uploaded_files/<?= $fetch_profile['image']; ?>" class="image" alt="">
          <h3><?= $fetch_profile['name']; ?></h3>
          <span>student</span>
          <a href="profile.php" class="btn">view profile</a>

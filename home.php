@@ -127,30 +127,29 @@ $total_bookmarked = $select_bookmark->rowCount();
          if($select_courses->rowCount() > 0){
             while($fetch_course = $select_courses->fetch(PDO::FETCH_ASSOC)){
                $course_id = $fetch_course['id'];
-
                $select_tutor = $conn->prepare("SELECT * FROM `tutors` WHERE id = ?");
                $select_tutor->execute([$fetch_course['tutor_id']]);
                $fetch_tutor = $select_tutor->fetch(PDO::FETCH_ASSOC);
       ?>
-      <div class="box">
-         <div class="tutor">
-            <img src="uploaded_files/<?= $fetch_tutor['image']; ?>" alt="">
-            <div>
-               <h3><?= $fetch_tutor['name']; ?></h3>
-               <span><?= $fetch_course['date']; ?></span>
-            </div>
-         </div>
-         <img src="uploaded_files/<?= $fetch_course['thumb']; ?>" class="thumb" alt="">
-         <h3 class="title"><?= $fetch_course['title']; ?></h3>
-         <a href="playlist.php?get_id=<?= $course_id; ?>" class="inline-btn">view playlist</a>
-      </div>
-      <?php
+<div class="box">
+<div class="tutor">
+        <img src="uploaded_files/<?= $fetch_tutor['image']; ?>"class="image" alt="" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
+        <h3><?= $fetch_tutor['name']; ?></h3>
+        <span><?= $fetch_course['date']; ?></span>
+    </div>
+    <img src="uploaded_files/<?= $fetch_tutor['image']; ?>" alt="sss" style="width: 100%; max-height: 150px; object-fit: cover;">
+    <h3 class="title"><?= $fetch_course['title']; ?></h3>
+    <a href="playlist.php?get_id=<?= $course_id; ?>" class="inline-btn">view playlist</a>
+</div>
+</div>
+   <?php
          }
       }else{
          echo '<p class="empty">no courses added yet!</p>';
       }
-      ?>
-
+   ?>
+   <div class="more-btn">
+      <a href="courses.php" class="inline-option-btn">view more</a>
    </div>
 
    <div class="more-btn">

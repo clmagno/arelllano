@@ -48,11 +48,22 @@ document.querySelector('#menu-btn').onclick = () =>{
    body.classList.toggle('active');
 }
 
-document.querySelector('#close-btn').onclick = () =>{
-   sideBar.classList.remove('active');
-   body.classList.remove('active');
-}
-
+// document.querySelector('#close-btn').onclick = () =>{
+//    sideBar.classList.remove('active');
+//    body.classList.remove('active');
+// }
+document.addEventListener('DOMContentLoaded', function() {
+   const closeBtn = document.getElementById('#close-btn');
+   
+   if (closeBtn) {
+       closeBtn.addEventListener('click', function() {
+           sideBar.classList.remove('active');
+           body.classList.remove('active');
+       });
+   } else {
+       console.log('Element with id "close-btn" not found');
+   }
+});
 window.onscroll = () =>{
    profile.classList.remove('active');
    search.classList.remove('active');
