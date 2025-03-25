@@ -1,10 +1,8 @@
 <?php
 // Start session for user management
 session_start();
-
 // Include database connection
 include 'components/connect.php';
-
 // Initialize variables
 $email = $password = $message = '';
 $remember_email = false;
@@ -23,18 +21,31 @@ if(isset($_POST['submit'])){
     $pass = filter_var($pass, FILTER_SANITIZE_STRING);
     $remember_email = isset($_POST['remember_email']) ? true : false;
 
-    // Prepare secure query
+    // Prepare secure query for users table
     $select_user = $conn->prepare("SELECT * FROM `users` WHERE email = ? AND password = ? LIMIT 1");
-   $select_user->execute([$email, $pass]);
-   $row = $select_user->fetch(PDO::FETCH_ASSOC);
+    $select_user->execute([$email, $pass]);
+    $row = $select_user->fetch(PDO::FETCH_ASSOC);
 
-   if($select_user->rowCount() > 0){
-        // Login successful
+    // Check if user exists
+    if($row !== false){
+        // Login successful - User found
         setcookie('user_id', $row['id'], time() + 60*60*24*30, '/');
         header('location:home.php');
         exit;
     } else {
-        $message[] = 'Incorrect email or password';
+        // Try tutor login
+        $stmt = $conn->prepare("SELECT * FROM `tutors` WHERE email = ? AND password = ? LIMIT 1");
+        $stmt->execute([$email, $pass]);
+        $tutor_row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($tutor_row !== false){
+            // Tutor found and password is correct
+            setcookie('tutor_id', $tutor_row['id'], time() + 60*60*24*30, '/');
+            header('location:admin/dashboard.php');
+            exit;
+        } else {
+            $message = 'Incorrect email or password';
+        }
     }
 }
 ?>
