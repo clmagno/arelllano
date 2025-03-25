@@ -36,7 +36,7 @@ if(isset($message)){
             if($select_profile->rowCount() > 0){
             $fetch_profile = $select_profile->fetch(PDO::FETCH_ASSOC);
          ?>
-         <img src="uploaded_files/<?= $fetch_profile['image']; ?>" alt="sss">
+         <img src="uploaded_files/<?= $fetch_profile['image']; ?>" alt="" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
          <h3><?= $fetch_profile['name']; ?></h3>
          <span>student</span>
          <a href="profile.php" class="btn">view profile</a>
