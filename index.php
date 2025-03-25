@@ -17,28 +17,24 @@ if(isset($_COOKIE['email'])){
 // Handle form submission
 if(isset($_POST['submit'])){
     // Input validation and sanitization
-    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-    $password = $_POST['password'];
+    $email = $_POST['email'];
+    $email = filter_var($email, FILTER_SANITIZE_STRING);
+    $pass = sha1($_POST['password']);
+    $pass = filter_var($pass, FILTER_SANITIZE_STRING);
     $remember_email = isset($_POST['remember_email']) ? true : false;
 
     // Prepare secure query
-    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ? LIMIT 1");
-    $stmt->execute([$email]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $select_user = $conn->prepare("SELECT * FROM `users` WHERE email = ? AND password = ? LIMIT 1");
+   $select_user->execute([$email, $pass]);
+   $row = $select_user->fetch(PDO::FETCH_ASSOC);
 
-    if($user && password_verify($password, $user['password'])) {
+   if($select_user->rowCount() > 0){
         // Login successful
-        $_SESSION['user_id'] = $user['id'];
-        
-        // Set remember email cookie if checked
-        if($remember_email) {
-            setcookie('email', $email, time() + 60*60*24*30, '/');
-        }
-        
+        setcookie('user_id', $row['id'], time() + 60*60*24*30, '/');
         header('location:home.php');
         exit;
     } else {
-        $message = 'Incorrect email or password';
+        $message[] = 'Incorrect email or password';
     }
 }
 ?>
@@ -69,17 +65,25 @@ if(isset($_POST['submit'])){
                     <label for="password" class="form-label">Password</label>
                     <input type="password" name="password" id="password" class="form-control" required>
                 </div>
-                <div class="mb-3 form-check">
+                <!-- <div class="mb-3 form-check">
                     <input type="checkbox" name="remember_email" id="remember_email" class="form-check-input">
                     <label class="form-check-label" for="remember_email">Remember me</label>
-                </div>
+                </div> -->
                 <div class="text-center">
                     <button type="submit" name="submit" class="btn btn-dark w-100">Log in</button>
                 </div>
             </form>
-            <div class="text-center mt-3">
-                <a href="#">Forgot your password?</a>
-            </div>
+            <style>
+    .cookie-note {
+        font-size: 0.875em;
+        font-style: italic;
+        color: #6c757d;
+    }
+</style>
+
+<div class="text-center mt-2">
+    <p class="cookie-note">Cookies must be enabled in your browser.</p>
+</div>
             <div class="text-center mt-2">
                 <span>Don't have an account?</span> <a href="register.php" class="fw-bold text-decoration-none">Register Now</a>
             </div>
