@@ -46,7 +46,9 @@ if(isset($_POST['like_content'])){
    }
 
 }
-
+function unique_id($length = 13) {
+   return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
+}
 if(isset($_POST['add_comment'])){
 
    if($user_id != ''){
