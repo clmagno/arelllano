@@ -1,5 +1,5 @@
 <?php
-
+   ini_set('memory_limit', '5000M'); // Set to 128MB, adjust as needed
 include '../components/connect.php';
 
 if(isset($_COOKIE['tutor_id'])){
@@ -8,7 +8,9 @@ if(isset($_COOKIE['tutor_id'])){
    $tutor_id = '';
    header('location:login.php');
 }
-
+function unique_id($length = 13) {
+   return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
+}
 if(isset($_POST['submit'])){
 
    $id = unique_id();
